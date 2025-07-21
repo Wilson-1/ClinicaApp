@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Paciente Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>Mis Citas</h2>
+  <ion-list>
+    <ion-item *ngFor="let cita of citas">
+      <ion-label>
+        <h3>{{ cita.doctor }}</h3>
+        <p>{{ cita.fecha }} - {{ cita.motivo }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-button routerLink="/doctor-dashboard" expand="block" color="primary">
+    Cambiar a Vista Doctor
+  </ion-button>
+</ion-content>
