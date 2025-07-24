@@ -1,0 +1,782 @@
+// Variables profesionales
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  --complete-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  --pending-gradient: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
+  --card-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  --card-shadow-hover: 0 16px 40px rgba(31, 38, 135, 0.25);
+  --professional-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --elevated-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --border-radius: 16px;
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.18);
+}
+
+:host {
+  // Estilo base para todas las tarjetas
+  ion-card {
+    margin-bottom: 24px;
+    border-radius: var(--border-radius);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    }
+    
+    &:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--card-shadow-hover);
+      background: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  // Títulos profesionales
+  ion-card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    letter-spacing: -0.5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  // Items con diseño profesional
+  ion-item {
+    --background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: var(--professional-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--elevated-shadow);
+      --background: rgba(255, 255, 255, 1);
+      
+      &::before {
+        transform: translateX(100%);
+      }
+    }
+  }
+
+  // Etiquetas con tipografía profesional
+  ion-label {
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1e272e;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: #4b6584;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+  }
+
+  // Layout del contenido
+  ion-content {
+    --padding-start: 20px;
+    --padding-end: 20px;
+    --padding-top: 16px;
+  }
+}
+
+// Header profesional con glassmorphism
+ion-header {
+  ion-toolbar {
+    --background: var(--primary-gradient);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    ion-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      animation: slideInDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      
+      ion-icon {
+        font-size: 1.4em;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        animation: pulse 3s infinite ease-in-out;
+      }
+    }
+  }
+}
+
+// Contenido principal con diseño profesional
+ion-content {
+  --background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  
+  // Tarjetas de estadísticas profesionales
+  .stats-card {
+    margin: 0;
+    border-radius: var(--border-radius);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--professional-shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    &:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: var(--elevated-shadow);
+      
+      &::before {
+        opacity: 1;
+      }
+    }
+    
+    .stats-content {
+      text-align: center;
+      padding: 20px 12px;
+      position: relative;
+      z-index: 2;
+      
+      .stats-icon {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+        animation: float 3s ease-in-out infinite;
+        
+        &[name="calendar-outline"] {
+          color: #667eea;
+        }
+        
+        &[name="time-outline"] {
+          color: #ffa726;
+        }
+        
+        &[name="person-outline"] {
+          color: #4facfe;
+        }
+      }
+      
+      h2 {
+        margin: 0;
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: countUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      
+      p {
+        margin: 8px 0 0 0;
+        font-size: 0.85rem;
+        color: #4b6584;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+  
+  // Tarjetas principales con glassmorphism profesional
+  .main-card {
+    margin: 24px 0;
+    border-radius: var(--border-radius);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary-gradient);
+    }
+    
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--card-shadow-hover);
+      background: rgba(255, 255, 255, 0.35);
+    }
+    
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: #2c3e50;
+      padding: 20px 20px 0 20px;
+      
+      ion-icon {
+        font-size: 1.5rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+        animation: rotate 4s linear infinite;
+        
+        &[name="calendar-outline"] {
+          color: #667eea;
+        }
+        
+        &[name="person-outline"] {
+          color: #4facfe;
+        }
+      }
+      
+      ion-badge {
+        margin-left: auto;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 4px 12px;
+        animation: pulse 2s infinite;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+      
+      ion-button {
+        margin-left: auto;
+        --border-radius: 20px;
+        --box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+        &:hover {
+          transform: scale(1.05);
+          --box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+      }
+    }
+  }
+  
+  // Tabla profesional para citas
+  .citas-table {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--professional-shadow);
+    margin: 16px 0;
+    
+    .table-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.9rem;
+    }
+    
+    .table-row {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: rgba(102, 126, 234, 0.05);
+        transform: translateX(4px);
+      }
+      
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+  
+  // Items de citas con diseño profesional
+  .cita-item {
+    border-radius: 12px;
+    margin: 12px 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--professional-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--primary-gradient);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover {
+      transform: translateX(8px) translateY(-2px);
+      box-shadow: var(--elevated-shadow);
+      background: rgba(255, 255, 255, 1);
+      
+      &::before {
+        transform: scaleY(1);
+      }
+    }
+    
+    .avatar-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 50%;
+        background: var(--primary-gradient);
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      
+      &:hover {
+        transform: scale(1.15) rotate(5deg);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        
+        &::before {
+          opacity: 0.3;
+        }
+      }
+    }
+    
+    .paciente-nombre {
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+      letter-spacing: -0.3px;
+    }
+    
+    .cita-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #4b6584;
+      font-size: 0.9rem;
+      font-weight: 500;
+      
+      ion-icon {
+        font-size: 1rem;
+        color: #667eea;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+      }
+    }
+    
+    // Estados con diseño profesional
+    &[data-estado="completada"] {
+      border-left: 4px solid #28a745;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, #28a745, #20c997);
+      }
+    }
+    
+    &[data-estado="pendiente"] {
+      border-left: 4px solid #ffc107;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, #ffc107, #fd7e14);
+      }
+    }
+    
+    &[data-estado="confirmada"] {
+      border-left: 4px solid #17a2b8;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, #17a2b8, #20c997);
+      }
+    }
+  }
+  
+  // Items de pacientes con diseño elevado
+  .paciente-item {
+    border-radius: 12px;
+    margin: 12px 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--professional-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    
+    &:hover {
+      transform: translateX(8px) translateY(-2px);
+      box-shadow: var(--elevated-shadow);
+      background: rgba(255, 255, 255, 1);
+    }
+    
+    .avatar-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--success-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      
+      &:hover {
+        transform: scale(1.15) rotate(-5deg);
+        box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+      }
+    }
+    
+    h3 {
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 4px;
+      font-size: 1.1rem;
+      letter-spacing: -0.3px;
+    }
+    
+    p {
+      color: #4b6584;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+  }
+  
+  // Botón de navegación profesional
+  .nav-button {
+    margin: 32px 0;
+    --border-radius: var(--border-radius);
+    --border-width: 2px;
+    --border-color: transparent;
+    height: 56px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    &:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+      
+      &::before {
+        left: 100%;
+      }
+    }
+    
+    ion-icon {
+      margin-right: 12px;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+    
+    &:hover ion-icon {
+      transform: translateX(4px) scale(1.1);
+    }
+  }
+}
+
+// Grid profesional con animaciones escalonadas
+ion-grid {
+  ion-row {
+    ion-col {
+      padding: 8px;
+      
+      .stats-card {
+        animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation-delay: calc(var(--order, 0) * 0.1s);
+        animation-fill-mode: both;
+      }
+      
+      &:nth-child(1) .stats-card { --order: 0; }
+      &:nth-child(2) .stats-card { --order: 1; }
+      &:nth-child(3) .stats-card { --order: 2; }
+    }
+  }
+}
+
+// Animaciones profesionales
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes countUp {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Aplicar animación a las tarjetas principales
+.main-card {
+  animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+// Chips profesionales con gradientes
+ion-chip {
+  border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  &[color="success"] {
+    background: var(--complete-gradient);
+    color: white;
+  }
+  
+  &[color="warning"] {
+    background: var(--pending-gradient);
+    color: white;
+  }
+  
+  &[color="primary"] {
+    background: var(--primary-gradient);
+    color: white;
+  }
+}
+
+// Modo oscuro profesional
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass-bg: rgba(0, 0, 0, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
+  
+  ion-content {
+    --background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    
+    .stats-card, .main-card {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .cita-item, .paciente-item {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+}
+
+// Responsive design profesional
+@media (max-width: 768px) {
+  .stats-card .stats-content {
+    padding: 16px 8px;
+    
+    .stats-icon {
+      font-size: 2rem;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+    }
+    
+    p {
+      font-size: 0.75rem;
+    }
+  }
+  
+  .nav-button {
+    height: 48px;
+    font-size: 1rem;
+  }
+  
+  .main-card .card-title {
+    padding: 16px 16px 0 16px;
+    font-size: 1.1rem;
+  }
+}
+
+// Efectos de partículas sutiles
+@keyframes particles {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(180deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
+.floating-particles {
+  position: fixed;
+  top: 100vh;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: rgba(102, 126, 234, 0.1);
+  animation: particles 15s linear infinite;
+  pointer-events: none;
+}

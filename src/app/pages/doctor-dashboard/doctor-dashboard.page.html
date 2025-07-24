@@ -1,21 +1,127 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Doctor Dashboard</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="medical-outline"></ion-icon>
+      Dashboard Doctor
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Citas de Hoy</h2>
-  <ion-list>
-    <ion-item *ngFor="let cita of citas">
-      <ion-label>
-        <h3>{{ cita.paciente }}</h3>
-        <p>{{ cita.fecha }} - {{ cita.motivo }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <!-- Pull to refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh-outline"
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="circles">
+    </ion-refresher-content>
+  </ion-refresher>
 
-  <ion-button routerLink="/paciente-dashboard" expand="block" color="secondary">
-    Cambiar a Vista Paciente
+  <!-- Tarjetas de estadísticas -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-card class="stats-card">
+          <ion-card-content class="stats-content">
+            <ion-icon name="calendar-outline" class="stats-icon"></ion-icon>
+            <h2>{{ citasHoy }}</h2>
+            <p>Citas Hoy</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      
+      <ion-col size="4">
+        <ion-card class="stats-card">
+          <ion-card-content class="stats-content">
+            <ion-icon name="time-outline" class="stats-icon"></ion-icon>
+            <h2>{{ citasPendientes }}</h2>
+            <p>Pendientes</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      
+      <ion-col size="4">
+        <ion-card class="stats-card">
+          <ion-card-content class="stats-content">
+            <ion-icon name="person-outline" class="stats-icon"></ion-icon>
+            <h2>{{ pacientesTotal }}</h2>
+            <p>Pacientes</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Citas del día mejoradas -->
+  <ion-card class="main-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="calendar-outline"></ion-icon>
+        Citas del día
+        <ion-badge color="primary">{{ citasHoy }}</ion-badge>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let cita of citas" button (click)="verDetalleCita(cita)" class="cita-item">
+          <ion-avatar slot="start">
+            <div class="avatar-placeholder">
+              {{ cita.paciente.charAt(0) }}
+            </div>
+          </ion-avatar>
+          <ion-label>
+            <h3 class="paciente-nombre">{{ cita.paciente }}</h3>
+            <p class="cita-info">
+              <ion-icon name="time-outline"></ion-icon>
+              {{ cita.fecha }} - {{ cita.motivo }}
+            </p>
+          </ion-label>
+          <ion-chip 
+            slot="end" 
+            [color]="cita.estado === 'completada' ? 'success' : 'warning'">
+            {{ cita.estado || 'Pendiente' }}
+          </ion-chip>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Pacientes asignados mejorados -->
+  <ion-card class="main-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="person-outline"></ion-icon>
+        Pacientes asignados
+        <ion-button fill="clear" size="small" (click)="navegarAPacientes()">
+          Ver todos
+        </ion-button>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let paciente of pacientes" button (click)="verPerfilPaciente(paciente)" class="paciente-item">
+          <ion-avatar slot="start">
+            <div class="avatar-placeholder">
+              {{ paciente.charAt(0) }}
+            </div>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ paciente }}</h3>
+            <p>Paciente activo</p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón de navegación al dashboard del paciente -->
+  <ion-button 
+    expand="block" 
+    fill="outline" 
+    routerLink="/paciente-dashboard"
+    class="nav-button">
+    <ion-icon name="person-outline" slot="start"></ion-icon>
+    Ver como Paciente
   </ion-button>
 </ion-content>

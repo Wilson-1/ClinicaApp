@@ -1,21 +1,171 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Paciente Dashboard</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-title>
+      <ion-icon name="person-outline"></ion-icon>
+      Dashboard Paciente
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Mis Citas</h2>
-  <ion-list>
-    <ion-item *ngFor="let cita of citas">
-      <ion-label>
-        <h3>{{ cita.doctor }}</h3>
-        <p>{{ cita.fecha }} - {{ cita.motivo }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <!-- Pull to refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh-outline"
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="circles">
+    </ion-refresher-content>
+  </ion-refresher>
 
-  <ion-button routerLink="/doctor-dashboard" expand="block" color="primary">
-    Cambiar a Vista Doctor
+  <!-- Tarjetas de estadísticas -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-card class="stats-card">
+          <ion-card-content class="stats-content">
+            <ion-icon name="calendar-outline" class="stats-icon"></ion-icon>
+            <h2>{{ citasTotal }}</h2>
+            <p>Mis Citas</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      
+      <ion-col size="4">
+        <ion-card class="stats-card">
+          <ion-card-content class="stats-content">
+            <ion-icon name="time-outline" class="stats-icon"></ion-icon>
+            <h2>{{ proximasCitas }}</h2>
+            <p>Próximas</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      
+      <ion-col size="4">
+        <ion-card class="stats-card">
+          <ion-card-content class="stats-content">
+            <ion-icon name="medical-sharp" class="stats-icon"></ion-icon>
+            <h2>{{ medicamentosTotal }}</h2>
+            <p>Medicamentos</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Mis Citas -->
+  <ion-card class="main-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="calendar-outline"></ion-icon>
+        Mis Citas
+        <ion-badge color="secondary">{{ citasTotal }}</ion-badge>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item 
+          *ngFor="let cita of citas" 
+          button 
+          (click)="verDetalleCita(cita)" 
+          class="cita-item"
+          [attr.data-estado]="cita.estado || 'sin-estado'">
+          <ion-avatar slot="start">
+            <div class="avatar-placeholder doctor-avatar">
+              {{ (cita.doctor || 'D').charAt(0) }}
+            </div>
+          </ion-avatar>
+          <ion-label>
+            <h3 class="doctor-nombre">{{ cita.doctor || 'Doctor no asignado' }}</h3>
+            <p class="cita-info">
+              <ion-icon name="time-outline"></ion-icon>
+              {{ cita.fecha || 'Fecha no definida' }} - {{ cita.motivo || 'Sin motivo' }}
+            </p>
+          </ion-label>
+          <ion-chip 
+            slot="end" 
+            [color]="getChipColor(cita.estado)">
+            {{ getEstadoText(cita.estado) }}
+          </ion-chip>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Mis Medicamentos -->
+  <ion-card class="main-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="medical-sharp"></ion-icon>
+        Mis Medicamentos
+        <ion-badge color="tertiary">{{ medicamentosTotal }}</ion-badge>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item 
+          *ngFor="let medicamento of medicamentos; let i = index" 
+          button 
+          (click)="verDetallesMedicamento(medicamento)" 
+          class="medicamento-item">
+          <ion-avatar slot="start">
+            <div class="avatar-placeholder med-avatar" [attr.data-color]="getMedicamentoColor(i)">
+              <ion-icon name="medical-sharp"></ion-icon>
+            </div>
+          </ion-avatar>
+          <ion-label>
+            <h3 class="medicamento-nombre">{{ medicamento.nombre || 'Medicamento' }}</h3>
+            <p class="medicamento-info">
+              <ion-icon name="time-outline"></ion-icon>
+              {{ medicamento.dosis || 'Sin dosis' }} - {{ medicamento.frecuencia || 'Sin frecuencia' }}
+            </p>
+            <p class="doctor-info">
+              <ion-icon name="person-outline"></ion-icon>
+              Recetado por: {{ medicamento.doctor || 'Doctor no especificado' }}
+            </p>
+          </ion-label>
+          <ion-chip 
+            slot="end" 
+            [color]="getMedicamentoColor(i)">
+            Activo
+          </ion-chip>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Información de salud -->
+  <ion-card class="main-card health-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="heart-outline"></ion-icon>
+        Mi Estado de Salud
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="health-info">
+        <div class="health-item">
+          <ion-icon name="calendar-outline" color="primary"></ion-icon>
+          <span>Última consulta: {{ citas.length > 0 ? citas[0].fecha : 'No registrada' }}</span>
+        </div>
+        <div class="health-item">
+          <ion-icon name="medical-sharp" color="tertiary"></ion-icon>
+          <span>Medicamentos activos: {{ medicamentosTotal }}</span>
+        </div>
+        <div class="health-item">
+          <ion-icon name="time-outline" color="warning"></ion-icon>
+          <span>Próximas citas: {{ proximasCitas }}</span>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón de navegación al dashboard del doctor -->
+  <ion-button 
+    expand="block" 
+    fill="outline" 
+    routerLink="/doctor-dashboard"
+    class="nav-button">
+    <ion-icon name="medical-outline" slot="start"></ion-icon>
+    Ver como Doctor
   </ion-button>
 </ion-content>
