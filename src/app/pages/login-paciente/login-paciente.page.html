@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>
+      <ion-icon name="heart-outline"></ion-icon>
+      Login Paciente
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="login-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="person-outline"></ion-icon>
+        Acceso Paciente
+      </ion-card-title>
+      <p class="subtitle">Ingresa con tu cuenta de Gmail</p>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <!-- Campo Email -->
+      <div class="input-group">
+        <ion-item class="input-item" [class.error]="emailError">
+          <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input 
+            [(ngModel)]="email" 
+            (ionInput)="onEmailInput()"
+            placeholder="paciente@gmail.com" 
+            type="email"
+            fill="outline"
+            label="Email Personal"
+            label-placement="floating"
+            autocomplete="email"
+            [disabled]="isLoading">
+          </ion-input>
+        </ion-item>
+        <ion-note *ngIf="emailError" color="danger" class="error-message">
+          {{ emailError }}
+        </ion-note>
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="input-group">
+        <ion-item class="input-item" [class.error]="passwordError">
+          <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input 
+            [(ngModel)]="password" 
+            (ionInput)="onPasswordInput()"
+            placeholder="Contraseña" 
+            [type]="showPassword ? 'text' : 'password'"
+            fill="outline"
+            label="Contraseña"
+            label-placement="floating"
+            autocomplete="current-password"
+            [disabled]="isLoading">
+          </ion-input>
+          <ion-button 
+            fill="clear" 
+            slot="end" 
+            (click)="togglePasswordVisibility()"
+            class="password-toggle">
+            <ion-icon 
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+              color="medium">
+            </ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-note *ngIf="passwordError" color="danger" class="error-message">
+          {{ passwordError }}
+        </ion-note>
+      </div>
+
+      <!-- Botón de Login -->
+      <ion-button 
+        expand="block" 
+        (click)="login()"
+        [disabled]="!isFormValid || isLoading"
+        class="login-button">
+        <ion-icon name="heart-outline" slot="start"></ion-icon>
+        {{ isLoading ? 'Verificando...' : 'Iniciar Sesión' }}
+      </ion-button>
+
+      <!-- Enlaces adicionales -->
+      <div class="additional-links">
+        <ion-button 
+          fill="clear" 
+          size="small" 
+          (click)="forgotPassword()"
+          class="forgot-password">
+          ¿Olvidaste tu contraseña?
+        </ion-button>
+        
+        <ion-button 
+          fill="clear" 
+          size="small" 
+          (click)="goToRegister()"
+          class="register-link">
+          ¿No tienes cuenta? Regístrate
+        </ion-button>
+      </div>
+
+      <!-- Credenciales de prueba -->
+      <div class="demo-credentials">
+        <ion-note color="medium">
+          <strong>Credenciales de prueba:</strong><br>
+          Email: paciente&#64;gmail.com<br>
+          Contraseña: 123456
+        </ion-note>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,7 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      <ion-icon name="medical-outline"></ion-icon>
+      Clínica Dental
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +10,39 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Clínica Dental</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div class="welcome-section">
+      <ion-icon name="medical-outline" class="main-icon"></ion-icon>
+      <h1>Bienvenido a la Clínica Dental</h1>
+      <p>Sistema de gestión médica profesional</p>
+    </div>
+
+    <div class="login-buttons">
+      <ion-button 
+        expand="block" 
+        color="primary" 
+        [routerLink]="['/login-doctor']"
+        class="login-btn doctor-btn">
+        <ion-icon name="medical-outline" slot="start"></ion-icon>
+        Iniciar sesión como Doctor
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        color="success" 
+        [routerLink]="['/login-paciente']"
+        class="login-btn patient-btn">
+        <ion-icon name="heart-outline" slot="start"></ion-icon>
+        Iniciar sesión como Paciente
+      </ion-button>
+    </div>
+
+    <div class="info-section">
+      <p>Accede a tu cuenta para gestionar citas, historiales médicos y más.</p>
+    </div>
   </div>
 </ion-content>
